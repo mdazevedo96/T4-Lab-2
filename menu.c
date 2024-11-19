@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "mesa.h"
 
 menu()
 {
-	int opcao, linhas, colunas, total_mesas;
-	Mesa*** mesas;
+	int opcao, linhas, colunas, total_mesas, aux;
+	Mesa** mesas;
 	
 	do
 	{
@@ -14,49 +15,54 @@ menu()
 		printf("\nMENU:");
 		printf("\n1.ABRIR RESTAURANTE");
 		printf("\n2.CHEGAR CLIENTES AO RESTAURANTE");
-		printf("\n3.FINALIZAR REFEIÇÃO/LIBERAR MESA");
+		printf("\n3.FINALIZAR REFEICAO/LIBERAR MESA");
 		printf("\n4.DESISTIR DE ESPERAR");
 		printf("\n5.REPOR PRATOS");
 		printf("\n6.IMPRIMIR PILHA DE PRATOS");
 		printf("\n7.IMPRIMIR FILA DE ESPERA");
-		printf("\n8.IMPRIMIR OCUPAÇÃO DAS MESAS");
+		printf("\n8.IMPRIMIR OCUPACAO DAS MESAS");
+		printf("\n0.SAIR");
 	
+		printf("\nOPCAO SELECIONADA: ");	
 		scanf("%d", &opcao);
-		printf("OPCAO SELECIONADA: %d", opcao);	
-		
+				
 		switch(opcao)
 		{
+			//SAI DO MENU
+			case 0:
+				return 0;
+				
 			//1.ABRIR RESTAURANTE
 			case 1:
-				printf("INFORME COMO AS MESAS ESTAO DISTRIBUIDAS (linhas x colunas)");
-				scanf("%d %d", linhas, colunas);
-			
+				printf("\nINFORME COMO AS MESAS ESTAO DISTRIBUIDAS (linhas x colunas): ");
+				scanf("%d %d", &linhas, &colunas);
+
 				mesas = alocaMatrizDeStructs(linhas, colunas);
 				total_mesas = linhas*colunas;
 				
-				printf("RESTAURANTE ABERTO!");
+				printf("\nRESTAURANTE ABERTO!\n");
 				break;
 				
 			//2.CHEGAR (GRUPO DE) CLIENTES NO RESTAURANTE
 			case 2:
-				printf("QUANTAS PESSOAS HA NESSE GRUPO?: ");
+				printf("\nQUANTAS PESSOAS HA NESSE GRUPO?: ");
 				scanf("%d", &tam_grp);
 				
-				int i=0;
+				int i, j;
 				
-				for(int i=0; i<linhas; i++){
-					for(int j=0; i<colunas; j++){
-						if(mesas[i][j]->ocupada == false){
+				for(i=0; i<linhas; i++){
+					for(j=0; i<colunas; j++){
+						if(tam_grp >= 1 && mesas[i][j].ocupada == false){
 							if(tam_grp <= 4){
-								mesas->q_pessoas = tam_grp;
-								printf("\nO GRUPO DE CLIENTES ESTAH NA MESA %d.\n", mesas[i][j]->n_mesa);
+								mesas[i][j].q_pessoas = tam_grp;
+								printf("\nO GRUPO DE CLIENTES ESTAH NA MESA %d.\n", mesas[i][j].n_mesa);
+								tam_grp -= tam_grp;
 							}else{
-								mesas->q_pessoas = 4;
+								mesas[i][j].q_pessoas = 4;
+								printf("\nO GRUPO DE CLIENTES ESTAH NA MESA %d.\n", mesas[i][j].n_mesa);
+								tam_grp -= 4;
 							}
-							tam_grp -= 4;
 						}
-						if(tam_grp <= 0)
-							printf("O GRUPO DE CLIENTES ESTAO NAS MESAS %d.\n", mesas[i][j]->n_mesa);
 					}
 				}
 				break;
@@ -90,7 +96,11 @@ menu()
 			case 8:
 				
 				break;	
+			
+			default:
+				printf("\nRESPOSTA INVALIDA. ENCERRANDO\n");
+				return 0;
 		}
-	}
+	}while(opcao != 0);
 	
 }
