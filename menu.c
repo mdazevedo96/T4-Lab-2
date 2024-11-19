@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <math.h>
 #include "mesa.h"
 
 menu()
@@ -48,30 +49,36 @@ menu()
 				printf("\nQUANTAS PESSOAS HA NESSE GRUPO?: ");
 				scanf("%d", &tam_grp);
 				
-				int i, j;
-				
-				for(i=0; i<linhas; i++){
-					for(j=0; i<colunas; j++){
-						if(tam_grp >= 1 && mesas[i][j].ocupada == false){
-							if(tam_grp <= 4){
-								mesas[i][j].q_pessoas = tam_grp;
-								printf("\nO GRUPO DE CLIENTES ESTAH NA MESA %d.\n", mesas[i][j].n_mesa);
-								tam_grp -= tam_grp;
-							}else{
+				int i, j, k = 0;
+				int restante = tam_grp;
+
+				for(i=0; i<linhas && restante>0; i++){
+					for(j=0; j<colunas && restante>0; j++){
+						if(mesas[i][j].ocupada == false){
+							if(tam_grp > 4){
 								mesas[i][j].q_pessoas = 4;
+								mesas[i][j].ocupada = true;
 								printf("\nO GRUPO DE CLIENTES ESTAH NA MESA %d.\n", mesas[i][j].n_mesa);
-								tam_grp -= 4;
+								restante -= 4;								
+							}else{
+								mesas[i][j].q_pessoas = tam_grp;
+								mesas[i][j].ocupada = true;
+								printf("\nO GRUPO DE CLIENTES ESTAH NA MESA %d.\n", mesas[i][j].n_mesa);
+								restante -= tam_grp;
 							}
 						}
 					}
 				}
+				if(restante>0)
+					printf("\nNAO HA MESAS SUFICIENTES\n");
+				
 				break;
 				
 			//3.FINALIZAR REFEIÇÃO/LIBERAR MESA
 			case 3:
 				
 				break;
-				
+		
 			//4.DESISTIR DE ESPERAR
 			case 4:
 				
@@ -94,7 +101,7 @@ menu()
 			
 			//8.IMPRIMIR OCUPAÇÃO DAS MESAS
 			case 8:
-				
+				imprimeMesas(mesas, linhas, colunas);
 				break;	
 			
 			default:

@@ -37,6 +37,29 @@ Mesa** alocaMatrizDeStructs(int n_linhas, int n_colunas)
 	return matriz;
 }
 
+
+void imprimeMesas(Mesa** mesas, int n_linhas, int n_colunas) {
+    if (mesas == NULL) {
+        printf("Nenhuma mesa alocada.\n");
+        return;
+    }
+	int i, j;	
+    printf("\nEstado das Mesas:\n");
+    for (i = 0; i < n_linhas; i++) {
+        for (j = 0; j < n_colunas; j++) {
+            Mesa m = mesas[i][j];
+            printf("Mesa %2d: ", m.n_mesa);
+
+            if (m.ocupada) {
+                printf("Ocupada | Pessoas: %d | Comanda: %d\n", m.q_pessoas, m.n_comanda);
+            } else {
+                printf("Livre\n");
+            }
+        }
+    }
+}
+
+
 void liberaMatrizDeStructs(Mesa** mesas, int n_linhas)
 {
 	int i;

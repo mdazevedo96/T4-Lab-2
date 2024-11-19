@@ -22,5 +22,7 @@ typedef struct mesa Mesa;
 /*MALLOC MATRIZ MESAS*/
 Mesa** alocaMatrizDeStructs(int n_linhas, int n_colunas);
 
+void imprimeMesas(Mesa** mesas, int n_linhas, int n_colunas);
+
 /*LIBERA MATRIZ MESAS*/
 void liberaMatrizDeStructs(Mesa** mesas, int n_linhas);
