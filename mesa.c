@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <stdbool.h>
 #include "mesa.h"
 
 /*-----FUNCOES MESA-----*/
@@ -57,6 +57,62 @@ void imprimeMesas(Mesa** mesas, int n_linhas, int n_colunas) {
             }
         }
     }
+}
+
+
+int calculaQuantasMesas(int tamanho_grupo)
+{
+	int cheias = tamanho_grupo / 4;
+	int sobra = 0;
+	if(tamanho_grupo % 4 != 0)
+		sobra = 1;
+	int total = cheias+sobra;
+}
+
+
+Mesa** procuraMesasProGrupo(Mesa** mesas, int linhas, int colunas, int tamanho_grupo, int* mesas_usadas)
+{
+	Mesa** aux = mesas;
+	int i, j, k = 0;
+	 
+	for(i=0; i<linhas && tamanho_grupo>0; i++){
+		for(j=0; j<colunas && tamanho_grupo>0; j++){
+			if(aux[i][j].ocupada == false){
+				if(tamanho_grupo > 4){
+					aux[i][j].q_pessoas = 4;
+					aux[i][j].ocupada = true;
+					mesas_usadas[k] = aux[i][j].n_mesa;
+					k++;
+					tamanho_grupo -= 4;								
+				}else{
+					aux[i][j].q_pessoas = tamanho_grupo;
+					aux[i][j].ocupada = true;
+					mesas_usadas[k] = aux[i][j].n_mesa;
+					k++;
+					tamanho_grupo = 0;
+				}
+			}
+		}
+	}
+	if(tamanho_grupo>0)
+		printf("\nNAO HA MESAS SUFICIENTES PARA TODO O GRUPO\n");
+			
+	return aux;
+}
+
+
+void imprimeLocalizacaoGrupo(int* mesas_usadas, int tam_grp)
+{
+	int i = 0;
+	int tam = calculaQuantasMesas(tam_grp);
+	if(tam == 1)
+		printf("\nO GRUPO DE CLIENTES SE ENCONTRA NA MESA %d.\n", mesas_usadas[i]);
+	else{ 
+		printf("\nO GRUPO DE CLIENTES SE ENCONTRA NAS MESAS");
+		for(i=0; i<tam; i++)
+			printf(" %d", mesas_usadas[i]);
+	}
+	printf("\n");
 }
 
 

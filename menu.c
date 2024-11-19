@@ -49,28 +49,19 @@ menu()
 				printf("\nQUANTAS PESSOAS HA NESSE GRUPO?: ");
 				scanf("%d", &tam_grp);
 				
-				int i, j, k = 0;
-				int restante = tam_grp;
+				int tam = calculaQuantasMesas(tam_grp);
 
-				for(i=0; i<linhas && restante>0; i++){
-					for(j=0; j<colunas && restante>0; j++){
-						if(mesas[i][j].ocupada == false){
-							if(tam_grp > 4){
-								mesas[i][j].q_pessoas = 4;
-								mesas[i][j].ocupada = true;
-								printf("\nO GRUPO DE CLIENTES ESTAH NA MESA %d.\n", mesas[i][j].n_mesa);
-								restante -= 4;								
-							}else{
-								mesas[i][j].q_pessoas = tam_grp;
-								mesas[i][j].ocupada = true;
-								printf("\nO GRUPO DE CLIENTES ESTAH NA MESA %d.\n", mesas[i][j].n_mesa);
-								restante -= tam_grp;
-							}
-						}
-					}
-				}
-				if(restante>0)
-					printf("\nNAO HA MESAS SUFICIENTES\n");
+				int *usadas = malloc(tam * sizeof(int));
+            	if (usadas == NULL) {
+                	printf("Erro de alocação de memória.\n");
+                	return 0; // ou algum código de erro apropriado
+	            }
+
+				mesas = procuraMesasProGrupo(mesas, linhas, colunas, tam_grp, usadas);
+
+				imprimeLocalizacaoGrupo(usadas, tam_grp);
+				
+				free(usadas);
 				
 				break;
 				

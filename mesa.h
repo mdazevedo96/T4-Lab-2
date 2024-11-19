@@ -24,5 +24,11 @@ Mesa** alocaMatrizDeStructs(int n_linhas, int n_colunas);
 
 void imprimeMesas(Mesa** mesas, int n_linhas, int n_colunas);
 
+int calculaQuantasMesas(int tamanho_grupo);
+
+Mesa** procuraMesasProGrupo(Mesa** mesas, int linhas, int colunas, int tamanho_grupo, int* mesas_usadas);
+
+void imprimeLocalizacaoGrupo(int* mesas_usadas, int tam_grp);
+
 /*LIBERA MATRIZ MESAS*/
 void liberaMatrizDeStructs(Mesa** mesas, int n_linhas);
