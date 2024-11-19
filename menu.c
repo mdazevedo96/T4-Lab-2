@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <math.h>
 #include "mesa.h"
 
 menu()
 {
 	int opcao, linhas, colunas, total_mesas, aux;
 	Mesa** mesas;
+	bool aberto = false;
 	
 	do
 	{
@@ -35,31 +35,52 @@ menu()
 				
 			//1.ABRIR RESTAURANTE
 			case 1:
+				if(aberto){
+					printf("\nO RESTAURANTE JA FOI ABERTO!\n");
+					break;
+				}
+				
 				printf("\nINFORME COMO AS MESAS ESTAO DISTRIBUIDAS (linhas x colunas): ");
 				scanf("%d %d", &linhas, &colunas);
 
 				mesas = alocaMatrizDeStructs(linhas, colunas);
 				total_mesas = linhas*colunas;
+				aberto = true;
 				
 				printf("\nRESTAURANTE ABERTO!\n");
 				break;
 				
 			//2.CHEGAR (GRUPO DE) CLIENTES NO RESTAURANTE
 			case 2:
+				if(aberto == false){
+					printf("\nO RESTAURANTE AINDA NAO FOI ABERTO! DIGITE '1' A SEGUIR PARA ABRI-LO\n");
+					break;
+				}
+				
+				if(haMesasVagas(mesas, linhas, colunas) == 0){
+					printf("\nNAO HA MESAS LIVRES PARA O GRUPO\n");
+					break;
+				}
+					
 				printf("\nQUANTAS PESSOAS HA NESSE GRUPO?: ");
 				scanf("%d", &tam_grp);
 				
 				int tam = calculaQuantasMesas(tam_grp);
+				int restante = tam_grp;
 
-				int *usadas = malloc(tam * sizeof(int));
-            	if (usadas == NULL) {
-                	printf("Erro de alocação de memória.\n");
-                	return 0; // ou algum código de erro apropriado
-	            }
+				int* usadas = reAllocaVetor(1, tam, usadas);
+            
+				mesas = procuraMesasProGrupo(mesas, linhas, colunas, usadas, &restante);
 
-				mesas = procuraMesasProGrupo(mesas, linhas, colunas, tam_grp, usadas);
-
-				imprimeLocalizacaoGrupo(usadas, tam_grp);
+				int tantas = tam - (calculaQuantasMesas(restante));
+				
+				if(tantas!=0)
+					imprimeLocalizacaoGrupo(usadas, tantas);
+				
+				if(restante>0){
+					printf("OBS: NAO HA MAIS MESAS VAGAS PARA %d DOS INTEGRANTES DO GRUPO\n", restante);
+					reAllocaVetor(2, tantas, usadas);
+  				}
 				
 				free(usadas);
 				
@@ -101,4 +122,5 @@ menu()
 		}
 	}while(opcao != 0);
 	
+	liberaMatrizDeStructs(mesas, linhas);
 }

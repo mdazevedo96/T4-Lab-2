@@ -22,13 +22,18 @@ typedef struct mesa Mesa;
 /*MALLOC MATRIZ MESAS*/
 Mesa** alocaMatrizDeStructs(int n_linhas, int n_colunas);
 
+int haMesasVagas(Mesa** mesas, int linhas, int colunas);
+
 void imprimeMesas(Mesa** mesas, int n_linhas, int n_colunas);
 
 int calculaQuantasMesas(int tamanho_grupo);
 
-Mesa** procuraMesasProGrupo(Mesa** mesas, int linhas, int colunas, int tamanho_grupo, int* mesas_usadas);
+Mesa** procuraMesasProGrupo(Mesa** mesas, int linhas, int colunas, int* mesas_usadas, int* restante);
 
-void imprimeLocalizacaoGrupo(int* mesas_usadas, int tam_grp);
+void imprimeLocalizacaoGrupo(int* mesas_usadas, int tantas);
+
+int* reAllocaVetor(int n, int tam, int* vetor);
+
 
 /*LIBERA MATRIZ MESAS*/
 void liberaMatrizDeStructs(Mesa** mesas, int n_linhas);

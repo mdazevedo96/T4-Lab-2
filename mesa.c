@@ -38,6 +38,40 @@ Mesa** alocaMatrizDeStructs(int n_linhas, int n_colunas)
 }
 
 
+int* reAllocaVetor(int n, int tam, int* vetor)
+{
+	if(n==1){
+		int* v = malloc(tam * sizeof(int));
+    	if (v != NULL) {
+       		return v;
+   		}
+   	}
+   	else{
+		int* v = vetor;
+   		v = realloc(vetor, tam * sizeof(int));
+		if (v != NULL) {
+        	return v;
+        }
+	}
+		
+}
+
+int haMesasVagas(Mesa** mesas, int linhas, int colunas)
+{
+	int i, j;
+	int vagas = linhas*colunas;
+	Mesa** aux = mesas;
+	
+	for(i=0; i<linhas; i++){
+		for(j=0; j<colunas; j++){
+			if(aux[i][j].ocupada)
+				vagas -= 1;	
+		}
+	}
+	return vagas;
+}
+
+
 void imprimeMesas(Mesa** mesas, int n_linhas, int n_colunas) {
     if (mesas == NULL) {
         printf("Nenhuma mesa alocada.\n");
@@ -70,48 +104,44 @@ int calculaQuantasMesas(int tamanho_grupo)
 }
 
 
-Mesa** procuraMesasProGrupo(Mesa** mesas, int linhas, int colunas, int tamanho_grupo, int* mesas_usadas)
+Mesa** procuraMesasProGrupo(Mesa** mesas, int linhas, int colunas, int* mesas_usadas, int* restante)
 {
 	Mesa** aux = mesas;
 	int i, j, k = 0;
-	 
-	for(i=0; i<linhas && tamanho_grupo>0; i++){
-		for(j=0; j<colunas && tamanho_grupo>0; j++){
+	
+	for(i=0; i<linhas && *restante>0; i++){
+		for(j=0; j<colunas && *restante>0; j++){
 			if(aux[i][j].ocupada == false){
-				if(tamanho_grupo > 4){
+				if(*restante > 4){
 					aux[i][j].q_pessoas = 4;
 					aux[i][j].ocupada = true;
-					mesas_usadas[k] = aux[i][j].n_mesa;
-					k++;
-					tamanho_grupo -= 4;								
+					*restante -= 4;								
 				}else{
-					aux[i][j].q_pessoas = tamanho_grupo;
+					aux[i][j].q_pessoas = *restante;
 					aux[i][j].ocupada = true;
-					mesas_usadas[k] = aux[i][j].n_mesa;
-					k++;
-					tamanho_grupo = 0;
+					*restante = 0;
 				}
+				mesas_usadas[k] = aux[i][j].n_mesa;
+				k++;
 			}
 		}
 	}
-	if(tamanho_grupo>0)
-		printf("\nNAO HA MESAS SUFICIENTES PARA TODO O GRUPO\n");
-			
+				
 	return aux;
 }
 
 
-void imprimeLocalizacaoGrupo(int* mesas_usadas, int tam_grp)
+void imprimeLocalizacaoGrupo(int* mesas_usadas, int tantas)
 {
 	int i = 0;
-	int tam = calculaQuantasMesas(tam_grp);
-	if(tam == 1)
-		printf("\nO GRUPO DE CLIENTES SE ENCONTRA NA MESA %d.\n", mesas_usadas[i]);
-	else{ 
+	
+	if(tantas > 1){
 		printf("\nO GRUPO DE CLIENTES SE ENCONTRA NAS MESAS");
-		for(i=0; i<tam; i++)
+		for(i=0; i<tantas; i++)
 			printf(" %d", mesas_usadas[i]);
 	}
+	else
+		printf("\nO GRUPO DE CLIENTES SE ENCONTRA NA MESA %d.", mesas_usadas[i]);
 	printf("\n");
 }
 
