@@ -5,7 +5,7 @@
 
 /*-----FUNCOES MESA-----*/
 
-/*MALLOC MATRIZ MESAS*/
+/*CASE 1: MALLOC MATRIZ MESAS*/
 Mesa** alocaMatrizDeStructs(int n_linhas, int n_colunas)
 {
     int i, j, num = 1;
@@ -37,25 +37,23 @@ Mesa** alocaMatrizDeStructs(int n_linhas, int n_colunas)
 	return matriz;
 }
 
-
+/*MALLOC E REALLOC DO VETOR DAS MESAS USADAS*/
 int* reAllocaVetor(int n, int tam, int* vetor)
 {
 	if(n==1){
 		int* v = malloc(tam * sizeof(int));
-    	if (v != NULL) {
-       		return v;
-   		}
-   	}
-   	else{
+    	if (v != NULL)
+   			return v;
+	}
+	if(n==2){
 		int* v = vetor;
    		v = realloc(vetor, tam * sizeof(int));
-		if (v != NULL) {
+		if (v != NULL)
         	return v;
-        }
 	}
-		
 }
 
+/*RECEBE MATRIZ DAS MESAS E RETORNA QUANTAS MESAS ESTAO VAGAS*/
 int haMesasVagas(Mesa** mesas, int linhas, int colunas)
 {
 	int i, j;
@@ -71,7 +69,7 @@ int haMesasVagas(Mesa** mesas, int linhas, int colunas)
 	return vagas;
 }
 
-
+/*CASE 8: IMPRIME AS INFOS DE CADA MESA DO RESTAURANTE*/
 void imprimeMesas(Mesa** mesas, int n_linhas, int n_colunas) {
     if (mesas == NULL) {
         printf("Nenhuma mesa alocada.\n");
@@ -93,7 +91,7 @@ void imprimeMesas(Mesa** mesas, int n_linhas, int n_colunas) {
     }
 }
 
-
+/*CALCULA QUANTAS MESAS SERAO NECESSARIAS PARA O GRUPO*/
 int calculaQuantasMesas(int tamanho_grupo)
 {
 	int cheias = tamanho_grupo / 4;
@@ -103,7 +101,7 @@ int calculaQuantasMesas(int tamanho_grupo)
 	int total = cheias+sobra;
 }
 
-
+/*CASE 2: OCUPA AS MESAS QUE ESTAO LIVRES, ATUALIZA A MATRIZ, A VAR RESTANTE(DE CLIENTES) E O TAMANHO DO VET DO NUMERO DAS MESAS USADAS*/
 Mesa** procuraMesasProGrupo(Mesa** mesas, int linhas, int colunas, int* mesas_usadas, int* restante)
 {
 	Mesa** aux = mesas;
@@ -130,7 +128,7 @@ Mesa** procuraMesasProGrupo(Mesa** mesas, int linhas, int colunas, int* mesas_us
 	return aux;
 }
 
-
+/*IMPRIME O NUMERO DAS MESAS EM QUE O GRUPO SE ENCONTRA*/
 void imprimeLocalizacaoGrupo(int* mesas_usadas, int tantas)
 {
 	int i = 0;
@@ -145,7 +143,7 @@ void imprimeLocalizacaoGrupo(int* mesas_usadas, int tantas)
 	printf("\n");
 }
 
-
+/*LIBERA MATRIZ MESAS*/
 void liberaMatrizDeStructs(Mesa** mesas, int n_linhas)
 {
 	int i;
@@ -155,4 +153,3 @@ void liberaMatrizDeStructs(Mesa** mesas, int n_linhas)
         free(mesas);
     }
 }
-

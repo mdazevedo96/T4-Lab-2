@@ -5,7 +5,7 @@
 
 menu()
 {
-	int opcao, linhas, colunas, total_mesas, aux;
+	int opcao, linhas, colunas;
 	Mesa** mesas;
 	bool aberto = false;
 	
@@ -29,13 +29,16 @@ menu()
 				
 		switch(opcao)
 		{
+			
 			//SAI DO MENU
 			case 0:
 				return 0;
 				
+				
 			//1.ABRIR RESTAURANTE
 			case 1:
-				if(aberto){
+				
+				if(aberto){//confere se o restaurante ja foi aberto
 					printf("\nO RESTAURANTE JA FOI ABERTO!\n");
 					break;
 				}
@@ -43,46 +46,46 @@ menu()
 				printf("\nINFORME COMO AS MESAS ESTAO DISTRIBUIDAS (linhas x colunas): ");
 				scanf("%d %d", &linhas, &colunas);
 
-				mesas = alocaMatrizDeStructs(linhas, colunas);
-				total_mesas = linhas*colunas;
-				aberto = true;
+				mesas = alocaMatrizDeStructs(linhas, colunas);//malloc espaço para a matriz de mesas
+				aberto = true;//restaurante está aberto
 				
 				printf("\nRESTAURANTE ABERTO!\n");
 				break;
+			
 				
 			//2.CHEGAR (GRUPO DE) CLIENTES NO RESTAURANTE
 			case 2:
-				if(aberto == false){
+			
+				if(aberto == false){//se o restaurante nao foi aberto, encerra o case 2, volta pro menu
 					printf("\nO RESTAURANTE AINDA NAO FOI ABERTO! DIGITE '1' A SEGUIR PARA ABRI-LO\n");
 					break;
 				}
 				
-				if(haMesasVagas(mesas, linhas, colunas) == 0){
+				if(haMesasVagas(mesas, linhas, colunas) == 0){//confere se todas as mesas foram ocupadas, se sim, encerra case 2
 					printf("\nNAO HA MESAS LIVRES PARA O GRUPO\n");
 					break;
 				}
-					
+				
+				//o case 2 se inicia aqui, após conferir que o restaurante já está aberto e que há mesas sobrando	
 				printf("\nQUANTAS PESSOAS HA NESSE GRUPO?: ");
 				scanf("%d", &tam_grp);
 				
-				int tam = calculaQuantasMesas(tam_grp);
-				int restante = tam_grp;
-
-				int* usadas = reAllocaVetor(1, tam, usadas);
+				int quantia = calculaQuantasMesas(tam_grp);//guarda quantia de mesas que terao de ser usadas pelo grupo
+				int restante = tam_grp;//irah (a seguir) guardar o numero de intregrantes que sobrou/ficou sem mesa do grupo
+				int* usadas = reAllocaVetor(1, quantia, usadas);//malloc para um vetor de int, que guarda o num das mesas usadas pelo grupo
             
 				mesas = procuraMesasProGrupo(mesas, linhas, colunas, usadas, &restante);
 
-				int tantas = tam - (calculaQuantasMesas(restante));
+				quantia = quantia - (calculaQuantasMesas(restante));//atualiza a quantia de mesas que estao sendo usadas pelo grupo
+				reAllocaVetor(2, quantia, usadas);//realloca o tamanho do vetor de int
+								
+				if(quantia>0)//imprime quais as mesas o grupo estah usando
+					imprimeLocalizacaoGrupo(usadas, quantia);//usadas: numero das mesas; quantia: quantas mesas(tam do vetor)
 				
-				if(tantas!=0)
-					imprimeLocalizacaoGrupo(usadas, tantas);
-				
-				if(restante>0){
+				if(restante>0)//se ter sobrado/restado clientes, informa quantos ficaram sem mesa
 					printf("OBS: NAO HA MAIS MESAS VAGAS PARA %d DOS INTEGRANTES DO GRUPO\n", restante);
-					reAllocaVetor(2, tantas, usadas);
-  				}
 				
-				free(usadas);
+				free(usadas);//libera o vetor de int
 				
 				break;
 				

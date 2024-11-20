@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-//Sobre cada mesa, guardar o número da mesa e se está livre ou ocupada;
-//se estiver ocupada, guardar a quantidade de pessoas sentadas e o número da comanda. Cada mesa possui uma comanda. 
-
 /*-----STRUCT MESA-----*/ 
 
 struct mesa {
@@ -19,21 +16,26 @@ typedef struct mesa Mesa;
 
 /*-----FUNCOES MESA-----*/
 
-/*MALLOC MATRIZ MESAS*/
+/*CASE 1: MALLOC MATRIZ MESAS*/
 Mesa** alocaMatrizDeStructs(int n_linhas, int n_colunas);
 
-int haMesasVagas(Mesa** mesas, int linhas, int colunas);
-
-void imprimeMesas(Mesa** mesas, int n_linhas, int n_colunas);
-
-int calculaQuantasMesas(int tamanho_grupo);
-
-Mesa** procuraMesasProGrupo(Mesa** mesas, int linhas, int colunas, int* mesas_usadas, int* restante);
-
-void imprimeLocalizacaoGrupo(int* mesas_usadas, int tantas);
-
+/*MALLOC E REALLOC DO VETOR DAS MESAS USADAS*/
 int* reAllocaVetor(int n, int tam, int* vetor);
 
+/*RECEBE MATRIZ DAS MESAS E RETORNA QUANTAS MESAS ESTAO VAGAS*/
+int haMesasVagas(Mesa** mesas, int linhas, int colunas);
+
+/*CALCULA QUANTAS MESAS SERAO NECESSARIAS PARA O GRUPO*/
+int calculaQuantasMesas(int tamanho_grupo);
+
+/*CASE 2: OCUPA AS MESAS QUE ESTAO LIVRES, ATUALIZA A MATRIZ, A VAR RESTANTE(DE CLIENTES) E O TAMANHO DO VET DO NUMERO DAS MESAS USADAS*/
+Mesa** procuraMesasProGrupo(Mesa** mesas, int linhas, int colunas, int* mesas_usadas, int* restante);
+
+/*IMPRIME O NUMERO DAS MESAS EM QUE O GRUPO SE ENCONTRA*/
+void imprimeLocalizacaoGrupo(int* mesas_usadas, int tantas);
+
+/*CASE 8: IMPRIME AS INFOS DE CADA MESA DO RESTAURANTE*/
+void imprimeMesas(Mesa** mesas, int n_linhas, int n_colunas);
 
 /*LIBERA MATRIZ MESAS*/
 void liberaMatrizDeStructs(Mesa** mesas, int n_linhas);
