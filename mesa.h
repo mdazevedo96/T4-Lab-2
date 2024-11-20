@@ -17,7 +17,7 @@ typedef struct mesa Mesa;
 /*-----FUNCOES MESA-----*/
 
 /*CASE 1: MALLOC MATRIZ MESAS*/
-Mesa** alocaMatrizDeStructs(int n_linhas, int n_colunas);
+Mesa** alocaMatrizDeStructs(int linhas, int colunas);
 
 /*MALLOC E REALLOC DO VETOR DAS MESAS USADAS*/
 int* reAllocaVetor(int n, int tam, int* vetor);
@@ -35,7 +35,7 @@ Mesa** procuraMesasProGrupo(Mesa** mesas, int linhas, int colunas, int* mesas_us
 void imprimeLocalizacaoGrupo(int* mesas_usadas, int tantas);
 
 /*CASE 8: IMPRIME AS INFOS DE CADA MESA DO RESTAURANTE*/
-void imprimeMesas(Mesa** mesas, int n_linhas, int n_colunas);
+void imprimeMesas(Mesa** mesas, int linhas, int colunas, int num);
 
 /*LIBERA MATRIZ MESAS*/
-void liberaMatrizDeStructs(Mesa** mesas, int n_linhas);
+void liberaMatrizDeStructs(Mesa** mesas, int linhas);

@@ -49,6 +49,8 @@ menu()
 				mesas = alocaMatrizDeStructs(linhas, colunas);//malloc espaço para a matriz de mesas
 				aberto = true;//restaurante está aberto
 				
+//COLOCAR PRATOS NAS MESAS!!!
+				
 				printf("\nRESTAURANTE ABERTO!\n");
 				break;
 			
@@ -65,7 +67,8 @@ menu()
 					printf("\nNAO HA MESAS LIVRES PARA O GRUPO\n");
 					break;
 				}
-				
+//IR PRA FILA DE ESPERA!!! 
+								
 				//o case 2 se inicia aqui, após conferir que o restaurante já está aberto e que há mesas sobrando	
 				printf("\nQUANTAS PESSOAS HA NESSE GRUPO?: ");
 				scanf("%d", &tam_grp);
@@ -84,6 +87,7 @@ menu()
 				
 				if(restante>0)//se ter sobrado/restado clientes, informa quantos ficaram sem mesa
 					printf("OBS: NAO HA MAIS MESAS VAGAS PARA %d DOS INTEGRANTES DO GRUPO\n", restante);
+//IR PRA FILA DE ESPERA!!!
 				
 				free(usadas);//libera o vetor de int
 				
@@ -116,11 +120,39 @@ menu()
 			
 			//8.IMPRIMIR OCUPAÇÃO DAS MESAS
 			case 8:
-				imprimeMesas(mesas, linhas, colunas);
-				break;	
+				if(aberto == false){//se o restaurante nao foi aberto, encerra o case 8, volta pro menu
+					printf("\nO RESTAURANTE AINDA NAO FOI ABERTO! DIGITE '1' A SEGUIR PARA ABRI-LO\n");
+					break;
+				}
+
+				int resposta, num;
+				
+				printf("\nCOMO VOCE DESEJA PESQUISAR A OCUPACAO DAS MESAS?\n1.POR NUMERO DA MESA\n2.TODAS AS MESAS\nOPCAO ESCOLHIDA: ");
+				scanf("%d", &resposta);
 			
+				switch(resposta)
+				{
+					case 1://pergunta qual eh o numero da mesa e confere se resposta eh valida
+						printf("\nQUAL O NUMERO DA MESA QUE SE DESEJA PESQUISAR? ");
+						scanf("%d", &num);
+						if(num>0 && num<= linhas*colunas)
+							imprimeMesas(mesas, linhas, colunas, num);//faz impressao de uma unica mesa
+						else
+							printf("\nNUMERO DA MESA INFORMADO EH INVALIDO. VOLTANDO AO MENU\n");
+						break;
+					
+					case 2://se eh todas as mesas, manda imprimir tudo
+						imprimeMesas(mesas, linhas, colunas, 0);
+						break;
+						
+					default://se resposta invalida, volta
+						printf("\nOPCAO INVALIDA. VOLTANDO AO MENU\n");
+				}
+				break;//fim case 8
+			
+			//CASO NUMERO DIGITADO NAO SEJA NENHUMA DAS OPCOES A CIMA
 			default:
-				printf("\nRESPOSTA INVALIDA. ENCERRANDO\n");
+				printf("\nRESPOSTA INVALIDA. SAINDO DO MENU\n");
 				return 0;
 		}
 	}while(opcao != 0);
