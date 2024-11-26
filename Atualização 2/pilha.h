@@ -2,16 +2,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-struct lista{
-    int total_pratos;
-    struct lista* prox;
-};
-typedef struct lista Lista;
+typedef struct Lista {
+    int* pratos;      // Array que representa os pratos
+    struct Lista* prox;  // Ponteiro para o próximo nó
+} Lista;
 
-struct pilha{
-    Lista* prim;
-};
-typedef struct pilha Pilha;
+typedef struct Pilha {
+    Lista* prim;         // Ponteiro para o topo da pilha
+} Pilha;
 
 Pilha* pilha_cria(int linhas, int colunas);
 

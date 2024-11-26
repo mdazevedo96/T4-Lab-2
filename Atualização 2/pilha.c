@@ -3,34 +3,40 @@
 #include "pilha.h"
 
 int pilha_vazia(Pilha* p){
-    return (p->prim->total_pratos == 0);
+    return (p->prim->pratos == 0);
 }
 
-Pilha* pilha_cria(int linhas, int colunas){
-    // Qtd de mesas (linha * col * 4 (qtd pratos totais)
-    int total_pratos = linhas * colunas * 4;
-    Pilha* p = (Pilha*) malloc (sizeof(Pilha));
-    p->prim = NULL;
-    if(p->prim == NULL){
-        printf("Pilha criada com sucesso\n");
-    }else{
+Pilha* pilha_cria(int linhas, int colunas) {
+    int total_pratos = linhas * colunas * 4;  // Quantidade total de pratos
+    Pilha* p = (Pilha*) malloc(sizeof(Pilha));
+    if (p == NULL) {
         printf("Erro na alocacao da pilha\n");
         exit(1);
     }
+    p->prim = NULL; // Inicializa pilha vazia
+    printf("Pilha criada com sucesso\n");
 
-    p->prim->total_pratos = (int*) malloc (total_pratos * sizeof(int));
-    if (p->prim->total_pratos == NULL){
-        printf("Erro na alocacao de pratos (pilha)");
+
+    Lista* novo = (Lista*) malloc(total_pratos * sizeof(Lista));
+    if (novo == NULL) {
+        printf("Erro na alocacao da pilha\n");
+        free(p);
         exit(1);
     }
-    p->prim->total_pratos = total_pratos;
+
+    else{
+         novo->pratos = total_pratos;
+         novo->prox = NULL;
+         p->prim = novo;
+         printf("Total de pratos: %d\n", novo->pratos);
+    }
 
     return p;
 }
 
 void pilha_push(Pilha* p, int v){
     Lista* n = (Lista*) malloc(sizeof(Lista));
-    n->total_pratos = v;
+    n->pratos = v;
     n->prox = p->prim;
     p->prim = n;
 }
@@ -43,7 +49,7 @@ int pilha_pop(Pilha* p){
         exit(1);
     }
     t=p->prim;
-    v = t->total_pratos;
+    v = t->pratos;
     p->prim = t->prox;
     free(t);
     return v;
