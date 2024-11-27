@@ -13,13 +13,18 @@ typedef struct Pilha {
 
 Pilha* pilha_cria(int linhas, int colunas);
 
-void pilha_push(Pilha* p, int v);
+void pilha_push(Pilha* p);
 
 int pilha_pop(Pilha* p);
 
 void pilha_libera(Pilha* p);
 
-int pilha_vazia(Pilha* p);
+bool pilha_vazia(Pilha* p);
+
+bool pilha_cheia(Pilha* p);
+
+void pilha_imprime(Pilha* p);
+
 
 
 

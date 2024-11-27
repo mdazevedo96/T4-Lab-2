@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "pilha.h"
 
-int pilha_vazia(Pilha* p){
-    return (p->prim->pratos == 0);
+bool pilha_vazia(Pilha* p){
+    return (p->prim == NULL);
 }
 
 Pilha* pilha_cria(int linhas, int colunas) {
@@ -34,24 +35,33 @@ Pilha* pilha_cria(int linhas, int colunas) {
     return p;
 }
 
-void pilha_push(Pilha* p, int v){
+void pilha_push(Pilha* p){
+
+    if(pilha_cheia){
+            printf("Pilha esta cheia!\n");
+            printf("Nao eh possivel empilhar pratos\n");;
+    }
     Lista* n = (Lista*) malloc(sizeof(Lista));
-    n->pratos = v;
+    n->pratos = p;
     n->prox = p->prim;
     p->prim = n;
+
+     printf("Prato %d inserido na pilha\n", p->prim->pratos);
 }
 
 int pilha_pop(Pilha* p){
-    Lista* t;
-    int v;
     if(pilha_vazia(p)){
         printf("Pilha de pratos vazia\n");
         exit(1);
     }
+    Lista* t;
+    int v;
     t=p->prim;
     v = t->pratos;
     p->prim = t->prox;
     free(t);
+
+    printf("Quantidade pratos restantes: %d", v);
     return v;
 }
 
@@ -63,4 +73,12 @@ void pilha_libera(Pilha* p){
         q = t;
     }
     free(p);
+}
+
+void pilha_imprime(Pilha* p){
+    Lista* t = p->prim;
+    while(t != NULL){
+        printf("Pilha: %d", t->pratos);
+        t = t->prox;
+    }
 }

@@ -113,7 +113,7 @@ menu()
 
 			//6.IMPRIMIR PILHA DE PRATOS
 			case 6:
-
+                pilha_imprime(pilha);
 				break;
 
 			//7.IMPRIMIR FILA DE ESPERA
