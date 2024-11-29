@@ -79,6 +79,7 @@ Grupo* desisteDaFila(Grupo* inicio, int senha)
 	else//se nao for, quer dizer que o grupo com a senha estava no meio ou no fim da fila
 		anterior->prox = aux->prox;
 	
+	printf("O GRUPO COM A SENHA %d FOI RETIRADO DA FILA DE ESPERA.\n", senha);
 	free(aux);
 	return inicio;
 }

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "pilha.h"
+#include "mesa.h"
 
 bool pilha_vazia(Pilha* p){
     return (p->prim == NULL);
@@ -28,50 +29,65 @@ Pilha* pilha_cria(int linhas, int colunas)
     p->total_pratos = linhas*colunas*4;  // Quantidade total de pratos
     printf("Pilha criada com sucesso\n");
 
-	int i;
-
-	for(i=0; i<p->total_pratos; i++)
-		pilha_push(p);
+	pilha_push(p, p->total_pratos);
 		
 	printf("\nTotal de pratos: total %d topo %d\n", p->total_pratos, p->prim->num_prato);
 
     return p;
 }
 
-void pilha_push(Pilha* p)
+void pilha_push(Pilha* p, int colocar)
 {
     if(pilhaCheia(p) == true)
         return;
-
-    Lista* novo = (Lista*) malloc(sizeof(Lista));
+	int i;
+	for(i=0; i<colocar; i++){
+	    Lista* novo = (Lista*) malloc(sizeof(Lista));
 	
-	if(pilha_vazia(p))
-		novo->num_prato =  1;
-	else	
-    	novo->num_prato =  p->prim->num_prato + 1;
+		if(pilha_vazia(p))
+			novo->num_prato =  1;
+		else	
+    		novo->num_prato =  p->prim->num_prato + 1;
     
-	novo->prox = p->prim;
-    p->prim = novo;
-	
+		novo->prox = p->prim;
+	    p->prim = novo;
+	}
 //	printf("Prato %d inserido na pilha\n", p->prim->num_prato);
 }
 
-int pilha_pop(Pilha* p)
+void pilha_pop(Pilha* p, int retirar)
 {
     if(pilha_vazia(p)){
         printf("Pilha de pratos vazia\n");
         exit(1);
     }
+	int i;
+	int prato;
+	for(i=0; i<retirar; i++){
+	    Lista* t;
+    	t = p->prim;
+    	prato = t->num_prato;
+    	p->prim = t->prox;
+    	free(t);
+	    printf("Prato %d removido da pilha\n", prato);	
+	}
+}
 
-    Lista* t;
-    int prato;
-    t = p->prim;
-    prato = t->num_prato;
-    p->prim = t->prox;
-    free(t);
-
-    printf("Prato %d removido da pilha\n: %d", prato);
-    return prato;
+void pratosNaoUsados(Pilha* pilha, Mesa** mesas, int* usadas, int quantia, int linhas, int colunas)
+{
+	Mesa** aux = mesas;
+	int i, j, k = 0;
+	int colocar;
+	for(i=0; i<linhas; i++){
+		for(j=0; j<colunas; j++){
+			if((aux[i][j].n_mesa == usadas[k]) && (aux[i][j].q_pessoas < 4)){
+				colocar = 4 - aux[i][j].q_pessoas;
+				pilha_push(pilha, colocar);		
+			}
+			if(usadas[k] == quantia)
+				return;
+		}
+	}	
 }
 
 void pilha_libera(Pilha* p){
@@ -85,7 +101,12 @@ void pilha_libera(Pilha* p){
 }
 
 void pilha_imprime(Pilha* p){
-    Lista* t = p->prim;
+    if(pilha_vazia(p)){
+    	printf("Pilha de pratos estah vazia\n");
+    	return;
+    }
+	
+	Lista* t = p->prim;
     printf("Pilha:\n");
     while(t != NULL){
         printf("%d\t", t->num_prato);

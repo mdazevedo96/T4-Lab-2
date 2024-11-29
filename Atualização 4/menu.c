@@ -62,6 +62,8 @@ menu()
 				pilha = pilha_cria(linhas, colunas); //malloc pilha de pratos
 				fila = criaFila();//malloc espaço para a fila de cliente
 				aberto = true;//restaurante está aberto
+				
+				pilha_pop(pilha, linhas*colunas*4);
 
 //COLOCAR PRATOS NAS MESAS!!!
 
@@ -80,9 +82,10 @@ menu()
 				if(haMesasVagas(mesas, linhas, colunas) == 0){//confere se todas as mesas foram ocupadas, se sim, vai pra fila e encerra case 2
 					printf("\nNAO HA MESAS LIVRES PARA O GRUPO. DESEJA ENTRAR NA FILA DE ESPERA?\n1-SIM\t0-NAO: \t");
 					scanf("%d", &resposta);
-					if(resposta==1)
+					if(resposta==1){
 						grupoEntraNaFila(fila, tam_grp);
 						printf("A SENHA DA FILA DE ESPERA DO GRUPO EH '%d'", fila->fim->senha_grp);
+					}
 					break;
 				}
 				//o case 2 se inicia aqui, após conferir que o restaurante já está aberto e que há mesas sobrando
@@ -96,9 +99,10 @@ menu()
 				quantia = quantia - (calculaQuantasMesas(restante));//atualiza a quantia de mesas que estao sendo usadas pelo grupo
 				usadas = reAllocaVetor(2, quantia, usadas);//realloca o tamanho do vetor de int
 
-				if(quantia>0)//imprime quais as mesas o grupo estah usando
+				if(quantia>0){//imprime quais as mesas o grupo estah usando
 					imprimeLocalizacaoGrupo(usadas, quantia);//usadas: numero das mesas; quantia: quantas mesas(tam do vetor)
-					
+					pratosNaoUsados(pilha, mesas, usadas, quantia, linhas, colunas);
+				}
 				if(restante>0){//se ter sobrado/restado clientes, informa quantos ficaram sem mesa
 					printf("OBS: NAO HA MAIS MESAS VAGAS PARA %d DOS INTEGRANTES DO GRUPO\n", restante);
 					printf("DESEJA ENTRAR NA FILA DE ESPERA?\n1-SIM\t0-NAO: \t");
@@ -134,7 +138,6 @@ menu()
 				scanf("%d", &senha);
 				
 				fila->ini = desisteDaFila(fila->ini, senha);				
-				printf("O GRUPO COM A SENHA %d FOI RETIRADO DA FILA DE ESPERA.\n", senha);
 
 				break;
 
@@ -144,7 +147,8 @@ menu()
 				if(estahFechado(aberto)) break;				
 				if(pilha!=NULL){
 					printf("Repor pilha de pratos\n");
-                	pilha_push(pilha);
+					int repor = pilha->total_pratos - pilha->prim->num_prato;
+					pilha_push(pilha, repor);
                 }else{
                 	printf("pilha nao foi criada\n");
 				}

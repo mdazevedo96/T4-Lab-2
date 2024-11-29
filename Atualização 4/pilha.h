@@ -14,9 +14,9 @@ typedef struct Pilha {
 
 Pilha* pilha_cria(int linhas, int colunas);
 
-void pilha_push(Pilha* p);
+void pilha_push(Pilha* p, int colocar);
 
-int pilha_pop(Pilha* p);
+void pilha_pop(Pilha* p, int retirar);
 
 void pilha_libera(Pilha* p);
 
