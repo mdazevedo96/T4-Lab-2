@@ -13,13 +13,27 @@ bool estahFechado(bool aberto)
 		return true;
 	}
 }
-/*
-void entrarNaFila(Fila* fila, int integrantes)
+
+/*SE NAO HOUVER MAIS MESAS VAGAS, PERGUNTA SE QUER ENTAR NA FILA, ENTRA (OU NÃO)*/
+void entrarNaFila(Fila* fila, int integrantes, int caso)
 {
 	int resposta;
 	
+	if(caso == 1)
+		printf("\nNAO HA MESAS LIVRES PARA O GRUPO. DESEJA ENTRAR NA FILA DE ESPERA?\n1-SIM\t0-NAO: \t");
+	else{	
+		printf("OBS: NAO HA MAIS MESAS VAGAS PARA %d DOS INTEGRANTES DO GRUPO\n", integrantes);
+		printf("DESEJA ENTRAR NA FILA DE ESPERA?\n1-SIM\t0-NAO: \t");
+	}
+	
+	scanf("%d", &resposta);
+	
+	if(resposta==1){
+		grupoEntraNaFila(fila, integrantes);
+		printf("A SENHA DA FILA DE ESPERA DO GRUPO EH '%d'", fila->fim->senha_grp);
+	}else
+		printf("\nVOLTANDO AO MENU\n");	
 }
-*/
 
 /*PROCURA A MESA DO GRUPO QUE TEM MENOS DE 4 PESSOAS E DEVOLVE OS PRATOS QUE ESTAO SOBRANDO PARA A PILHA*/
 void pratosNaoUsados(Pilha* pilha, Mesa** mesas, int* usadas, int quantia, int linhas, int colunas)
@@ -48,7 +62,7 @@ void menu()
 
 	do
 	{
-		int tam_grp, senha, resposta;
+		int tam_grp, senha;
 
 		printf("\nMENU:");
 		printf("\n1.ABRIR RESTAURANTE");
@@ -102,12 +116,7 @@ void menu()
 				scanf("%d", &tam_grp);
 
 				if(haMesasVagas(mesas, linhas, colunas) == 0){//confere se todas as mesas foram ocupadas, se sim, vai pra fila e encerra case 2
-					printf("\nNAO HA MESAS LIVRES PARA O GRUPO. DESEJA ENTRAR NA FILA DE ESPERA?\n1-SIM\t0-NAO: \t");
-					scanf("%d", &resposta);
-					if(resposta==1){
-						grupoEntraNaFila(fila, tam_grp);
-						printf("A SENHA DA FILA DE ESPERA DO GRUPO EH '%d'", fila->fim->senha_grp);
-					}
+					entrarNaFila(fila, tam_grp, 1);
 					break;
 				}
 				//o case 2 se inicia aqui, após conferir que o restaurante já está aberto e que há mesas sobrando
@@ -125,15 +134,9 @@ void menu()
 					imprimeLocalizacaoGrupo(usadas, quantia);//usadas: numero das mesas; quantia: quantas mesas(tam do vetor)
 					pratosNaoUsados(pilha, mesas, usadas, quantia, linhas, colunas);
 				}
-				if(restante>0){//se ter sobrado/restado clientes, informa quantos ficaram sem mesa
-					printf("OBS: NAO HA MAIS MESAS VAGAS PARA %d DOS INTEGRANTES DO GRUPO\n", restante);
-					printf("DESEJA ENTRAR NA FILA DE ESPERA?\n1-SIM\t0-NAO: \t");
-					scanf("%d", &resposta);
-					if(resposta==1){
-						grupoEntraNaFila(fila, restante);
-						printf("A SENHA DA FILA DE ESPERA DO GRUPO EH '%d'", fila->fim->senha_grp);
-					}
-				}
+				
+				if(restante>0)//se ter sobrado/restado clientes, informa quantos ficaram sem mesa
+					entrarNaFila(fila, restante, 2);
 
 				free(usadas);//libera o vetor de int
 

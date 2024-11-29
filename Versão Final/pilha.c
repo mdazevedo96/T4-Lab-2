@@ -70,8 +70,7 @@ void pilha_imprime(Pilha* p)
     while(t != NULL){
         printf("%d\n", t->num_prato);
         t = t->prox;
-    }
-    printf("\n");
+	}
 }
 
 /*LIBERA A PILHA DE PRATOS*/

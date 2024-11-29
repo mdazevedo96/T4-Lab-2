@@ -7,6 +7,9 @@ void menu();
 /*CONFERE SE RESTAURANTE NAO FOI ABERTO AINDA. SENAO, AVISA*/
 bool estahFechado(bool aberto);
 
+/*SE NAO HOUVER MAIS MESAS VAGAS, PERGUNTA SE QUER ENTAR NA FILA, ENTRA (OU NÃO)*/
+entrarNaFila(Fila* fila, int integrantes, int caso);
+
 /*PROCURA A MESA DO GRUPO QUE TEM MENOS DE 4 PESSOAS E DEVOLVE OS PRATOS QUE ESTAO SOBRANDO PARA A PILHA*/
 void pratosNaoUsados(Pilha* pilha, Mesa** mesas, int* usadas, int quantia, int linhas, int colunas)
 
