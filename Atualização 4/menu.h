@@ -37,7 +37,7 @@ b.retira certinho o grp cfe o numero da senha do grp. se for o caso da senha nao
 COMPLETO: todas funcionam aparentemente bem, antes e depois das pilhas, filas e mesas serem mexidas (conferir dnv após completar tudo e dar uma arrumada no visual da impressao)
 6) Imprimir pilha de pratos, fila de espera e ocupação das mesas, conforme descrito a seguir:
 
-Apos readicionar pratos que estavam sobrando na mesa, pilha continua como vazia ao imprimir. mas se pilha vazia de fato, avisa normal; teste na opcao 1 foi adc pra conferir funcao push e pop 
+OK, imprime os pratos que estao na pilha e se ela estiver vazia, avisa que estah vazia
 6.Pilha de pratos (quantos pratos existem na pilha de pratos).
 
 OK, se vazia, avisa; senao, imprime normal como pedido e, cfe grupos desistirem ou entrarem no restaurante, a impressao fica aualizada certinho
