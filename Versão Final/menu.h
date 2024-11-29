@@ -1,6 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+FALTA ESSES DETALHES:
+4. O grupo que aguarda na fila de espera recebe uma senha única. Pode haver grupos grandes, e neste caso, assim que liberar uma mesa, 
+alguns membros do grupo podem conseguir mesa e outros ainda permanecerem na fila. Neste caso, a senha do grupo permanece a mesma, mas a quantidade de pessoas é atualizada. 
+6. Clientes podem finalizar a refeição e sair do restaurante, liberando as mesas; com isso, os clientes que por ventura aguardam na fila podem sentar-se (saindo da fila de espera). 
+Sempre que uma mesa for liberada, um funcionário arruma a mesa completa (se houver pratos na pilha). 
+8.Um funcionário repõe pratos na pilha de tempos em tempos (não sendo necessário que a pilha esteja vazia para que novos pratos sejam adicionados).
+imprime quantos pratos existem na pilha de pratos(imprimir apenas o numero de quantos tem ,nao a pilha toda)
+*/
+
 /*MENU DO PROGRAMA EH CHAMADO NO MAIN.C*/
 void menu();
 
