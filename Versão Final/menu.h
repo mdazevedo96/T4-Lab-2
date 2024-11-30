@@ -4,11 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-/*
+
 #include "mesa.h"
 #include "pilha.h"
 #include "fila.h"
-*/
+
 /*MENU DO PROGRAMA EH CHAMADO NO MAIN.C*/
 void menu();
 
