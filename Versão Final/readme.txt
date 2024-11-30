@@ -1,4 +1,4 @@
-TRABALHO 3 - RESTAURANTE
+TRABALHO 4 - RESTAURANTE
 DISCIPLINA: Lab de Programação II - ELC1067
 DUPLA: Marcelo Azevedo e Helena L. Kellermann
 
