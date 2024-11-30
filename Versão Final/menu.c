@@ -55,13 +55,17 @@ void pratosNaoUsados(Pilha* pilha, Mesa** mesas, int* usadas, int quantia, int l
 }
 
 /*RETORNA QUANTOS PRATOS ESTAO SENDO USADOS NAS MESAS*/
-int sendoUsado(Mesa** mesas, int linhas, int colunas)
+int sendoUsado(Mesa** mesas, int linhas, int colunas, bool prim_cliente)
 {
 	Mesa** aux = mesas;
 	int i, j, somatorio = 0;
+
+	if(prim_cliente == false)
+		return somatorio = linhas*colunas*4;
+
 	for(i=0; i<linhas; i++){
 		for(j=0; j<colunas; j++)
-			somatorio += aux[i][j].q_pessoas;
+			somatorio = aux[i][j].q_pessoas + somatorio;
 	}
 	return somatorio;
 }
@@ -74,6 +78,7 @@ void menu()
 	Pilha* pilha;
 	Fila* fila;
 	bool aberto = false;
+	bool prim_cliente = false;
 
 	do
 	{
@@ -153,6 +158,7 @@ void menu()
 					entrarNaFila(fila, restante, 2);//entra ou nao na fila de espera
 
 				free(usadas);//libera o vetor de int
+				prim_cliente = true;
 
 				break;
 
@@ -167,7 +173,7 @@ void menu()
 				
 				if((comanda > 0) && (comanda <= linhas*colunas)){//se numero digitado for valido
 					mesas = finalizaRefeicao(mesas, linhas, colunas, comanda);//atualiza matriz, agora com a mesa livre
-					int em_uso = sendoUsado(mesas, linhas, colunas);
+					int em_uso = sendoUsado(mesas, linhas, colunas, prim_cliente);
 					if(haPratosSuficientes(pilha, 4, em_uso))//confere se ha pratos suficientes pra arrumar a mesa
 						pilha_pop(pilha, 4);//arruma a mesa novamente, coloca os pratos
 					else//se nao tiver
@@ -201,9 +207,16 @@ void menu()
 				
 				if(estahFechado(aberto)) break;				
 				
-				int em_uso = sendoUsado(mesas, linhas, colunas);
-				int sujos = pilha->total_pratos - em_uso - pilha->prim->num_prato;// guarda os pratos que nao estao na mesa e nem na pilha
-						
+				int na_pilha;//guarda os que estao na pilha
+				int em_uso = sendoUsado(mesas, linhas, colunas, prim_cliente);//guarda os que estao na mesa
+				
+				if(pilha_vazia(pilha))
+					na_pilha = 0;
+				else
+					na_pilha = pilha->prim->num_prato;
+				
+				int sujos = pilha->total_pratos - em_uso - na_pilha;// guarda os pratos que nao estao na mesa e nem na pilha
+					
 				if(sujos != 0){
 					pilha_push(pilha, sujos);//os "sujos" serao "limpos" e irao pra pilha
 					printf("PILHA DE PRATOS FOI REABASTECIDA\n");

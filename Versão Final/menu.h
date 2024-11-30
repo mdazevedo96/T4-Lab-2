@@ -22,7 +22,7 @@ void entrarNaFila(Fila* fila, int integrantes, int caso);
 void pratosNaoUsados(Pilha* pilha, Mesa** mesas, int* usadas, int quantia, int linhas, int colunas);
 
 /*RETORNA QUANTOS PRATOS ESTAO SENDO USADOS NAS MESAS*/
-int sendoUsado(Mesa** mesas, int linhas, int colunas);
+int sendoUsado(Mesa** mesas, int linhas, int colunas, bool prim_cliente);
 
 /*
 FALTA ESSES DETALHES:
