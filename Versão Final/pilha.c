@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "pilha.h"
-#include "mesa.h"
 
 /*-----FUNCOES PILHA-----*/
 
@@ -45,10 +44,20 @@ void pilha_push(Pilha* p, int colocar)
 /*RETIRA DA PILHA O TANTO DE PRATOS QUE FOI INFORMADO*/
 void pilha_pop(Pilha* p, int retirar)
 {
-    if(pilha_vazia(p))
-    	return;
-    
-	int i;
+	int i, resposta;
+	
+    if(pilha_vazia(p)){
+/*    	printf("MESA NAO PODE SER ARRUMADA POIS FALTA PRATOS. REABASTECER A PILHA DE PRATOS?\n1-SIM\t0-NAO: \t");
+		scanf("%d", &resposta);
+			
+		if(resposta==1)
+			repoePratos(pilha);
+		else
+			printf("\nVOLTANDO AO MENU\n");	
+*/		
+		return;
+	}
+
 	//repete o push ate retirar todos os pratos que se desejava tirar da pilha
 	for(i=0; i<retirar; i++){
 	    Lista* t = p->prim;

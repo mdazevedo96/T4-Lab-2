@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
 #include "mesa.h"
 #include "pilha.h"
 #include "fila.h"
+#include "menu.h"
 
 /*CONFERE SE RESTAURANTE NAO FOI ABERTO AINDA. SENAO, AVISA*/
 bool estahFechado(bool aberto)
@@ -44,7 +46,7 @@ void pratosNaoUsados(Pilha* pilha, Mesa** mesas, int* usadas, int quantia, int l
 	for(i=0; i<linhas; i++){
 		for(j=0; j<colunas; j++){
 			//se o numero da mesa for igual ao da mesa usada, e tem menos de 4 pessoas
-			if(aux[i][j].n_mesa == usadas[quantia-1] && aux[i][j].q_pessoas < 4){
+			if((aux[i][j].n_mesa == usadas[quantia-1]) && (aux[i][j].q_pessoas < 4)){
 				colocar = 4 - aux[i][j].q_pessoas;//guarda quantos pratos estao sobrando
 				pilha_push(pilha, colocar);//coloca os pratos na pilha
 			}
@@ -153,6 +155,7 @@ void menu()
 				
 				if((comanda > 0) && (comanda <= linhas*colunas)){//se numero digitado for valido
 					mesas = finalizaRefeicao(mesas, linhas, colunas, comanda);//atualiza matriz, agora com a mesa livre
+					pilha_pop(pilha, 4);//arruma a mesa novamente, coloca os pratos
 					if(!filaVazia(fila))//se a fila nao estiver vazia
 						chamaFilaDeEspera(fila, mesas, linhas, colunas);//chama o pessoal da fila de espera
 				}else//valor digitado invalido
@@ -179,7 +182,7 @@ void menu()
 
 			//5.REPOR PRATOS
 			case 5:
-				
+/*				
 				if(estahFechado(aberto)) break;				
 				if(pilha!=NULL){
 					printf("Repor pilha de pratos\n");
@@ -188,6 +191,7 @@ void menu()
                 }else{
                 	printf("pilha nao foi criada\n");
 				}
+*/
 				break;
 
 			//6.IMPRIMIR PILHA DE PRATOS

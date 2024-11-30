@@ -3,13 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-/*
-FALTA ESSES DETALHES:
-Sempre que uma mesa for liberada, um funcionário arruma a mesa completa (se houver pratos na pilha). 
-8.Um funcionário repõe pratos na pilha de tempos em tempos (não sendo necessário que a pilha esteja vazia para que novos pratos sejam adicionados).
-imprime quantos pratos existem na pilha de pratos(imprimir apenas o numero de quantos tem ,nao a pilha toda)
-*/
 
 /*MENU DO PROGRAMA EH CHAMADO NO MAIN.C*/
 void menu();
@@ -18,10 +13,17 @@ void menu();
 bool estahFechado(bool aberto);
 
 /*SE NAO HOUVER MAIS MESAS VAGAS, PERGUNTA SE QUER ENTAR NA FILA, ENTRA (OU NÃO)*/
-entrarNaFila(Fila* fila, int integrantes, int caso);
+void entrarNaFila(Fila* fila, int integrantes, int caso);
 
 /*PROCURA A MESA DO GRUPO QUE TEM MENOS DE 4 PESSOAS E DEVOLVE OS PRATOS QUE ESTAO SOBRANDO PARA A PILHA*/
-void pratosNaoUsados(Pilha* pilha, Mesa** mesas, int* usadas, int quantia, int linhas, int colunas)
+void pratosNaoUsados(Pilha* pilha, Mesa** mesas, int* usadas, int quantia, int linhas, int colunas);
+
+/*
+FALTA ESSES DETALHES:
+Sempre que uma mesa for liberada, um funcionário arruma a mesa completa (se houver pratos na pilha). 
+8.Um funcionário repõe pratos na pilha de tempos em tempos (não sendo necessário que a pilha esteja vazia para que novos pratos sejam adicionados).
+imprime quantos pratos existem na pilha de pratos(imprimir apenas o numero de quantos tem ,nao a pilha toda)
+*/
 
 /*Faça um menu que permita no mínimo as seguintes operações:
 
