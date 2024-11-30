@@ -1,3 +1,6 @@
+#ifndef FILA_H
+#define FILA_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -31,6 +34,9 @@ void grupoEntraNaFila(Fila* f, int n_membros);
 /*RETIRA DA FILA O GRUPO QUE DESISTIU DE ESPERAR*/
 Grupo* desisteDaFila(Grupo* inicio, int senha);
 
+/*COLOCA O PRIMEIRO GRUPO DA FILA NA MESA VAGA*/
+void chamaFilaDeEspera(Fila* f, Mesa** mesas, int linhas, int colunas);
+
 /*RETIRA DA FILA DE ESPERA O PRIMEIRO GRUPO, SE TODOS INTEGRANTES CONSEGUIRAM MESA*/
 void retiraDaFila(Fila* f);
 
@@ -42,3 +48,5 @@ void liberaFila(Fila* f);
 
 /*RETORNA TRUE SE FILA ESTAH VAZIA, SENAO, FALSE*/
 bool filaVazia(Fila* f);
+
+#endif

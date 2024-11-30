@@ -109,6 +109,26 @@ Mesa** procuraMesasProGrupo(Mesa** mesas, int linhas, int colunas, int* mesas_us
 	return aux;//retorna a matriz de mesas atualizada
 }
 
+/*PROCURA NUMERO DA COMANDA E LIBERA A MESA USADA PARA OUTRO GRUPO*/
+Mesa** finalizaRefeicao(Mesa** mesas, int linhas, int colunas, int comanda)
+{
+	int i, j;
+	Mesa** aux = mesas;
+	for(i=0; i<linhas; i++){
+		for(j=0; j<colunas; j++){
+			if(aux[i][j].n_comanda == comanda && aux[i][j].ocupada == true){//se as comandas forem iguais, atualiza infos
+				aux[i][j].ocupada = false;
+				aux[i][j].q_pessoas = 0;
+				printf("A MESA COM A COMANDA %d FOI LIBERADA.\n", comanda);
+				return aux;//retorna matriz aux com as infos atualizadas	
+			}
+		}
+	}
+	printf("A MESA COM A COMANDA %d JA ESTA LIVRE.\n", comanda);//se aux[][] ja estava livre
+	return mesas;//retorna a matriz como era
+	
+}
+
 /*IMPRIME O NUMERO DAS MESAS EM QUE O GRUPO SE ENCONTRA*/
 void imprimeLocalizacaoGrupo(int* mesas_usadas, int tantas)
 {

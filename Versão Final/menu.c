@@ -19,17 +19,17 @@ void entrarNaFila(Fila* fila, int integrantes, int caso)
 {
 	int resposta;
 	
-	if(caso == 1)
+	if(caso == 1){
 		printf("\nNAO HA MESAS LIVRES PARA O GRUPO. DESEJA ENTRAR NA FILA DE ESPERA?\n1-SIM\t0-NAO: \t");
-	else{	
+		scanf("%d", &resposta);
+	}else{	
 		printf("OBS: NAO HA MAIS MESAS VAGAS PARA %d DOS INTEGRANTES DO GRUPO\n", integrantes);
 		printf("DESEJA ENTRAR NA FILA DE ESPERA?\n1-SIM\t0-NAO: \t");
+		scanf("%d", &resposta);
 	}
 	
-	scanf("%d", &resposta);
-	
 	if(resposta==1){
-		grupoEntraNaFila(fila, integrantes);
+		grupoEntraNaFila(fila, integrantes);//grupo eh posto na fila de espera
 		printf("A SENHA DA FILA DE ESPERA DO GRUPO EH '%d'", fila->fim->senha_grp);
 	}else
 		printf("\nVOLTANDO AO MENU\n");	
@@ -52,6 +52,7 @@ void pratosNaoUsados(Pilha* pilha, Mesa** mesas, int* usadas, int quantia, int l
 	}	
 }
 
+/*PRINCIPAL*/
 void menu()
 {
 	int opcao, linhas, colunas;
@@ -116,27 +117,26 @@ void menu()
 				scanf("%d", &tam_grp);
 
 				if(haMesasVagas(mesas, linhas, colunas) == 0){//confere se todas as mesas foram ocupadas, se sim, vai pra fila e encerra case 2
-					entrarNaFila(fila, tam_grp, 1);
+					entrarNaFila(fila, tam_grp, 1);//entra ou nao na fila de espera
 					break;
 				}
+				
 				//o case 2 se inicia aqui, após conferir que o restaurante já está aberto e que há mesas sobrando
-
 				int quantia = calculaQuantasMesas(tam_grp);//guarda quantia de mesas que terao de ser usadas pelo grupo
 				int restante = tam_grp;//irah (a seguir) guardar o numero de intregrantes que sobrou/ficou sem mesa do grupo
 				int* usadas = reAllocaVetor(1, quantia, usadas);//malloc para um vetor de int, que guarda o num das mesas usadas pelo grupo
 
-				mesas = procuraMesasProGrupo(mesas, linhas, colunas, usadas, &restante);
-
+				mesas = procuraMesasProGrupo(mesas, linhas, colunas, usadas, &restante);//clientes sentam-se a mesa, retorna matriz com infos atualizadas
 				quantia = quantia - (calculaQuantasMesas(restante));//atualiza a quantia de mesas que estao sendo usadas pelo grupo
 				usadas = reAllocaVetor(2, quantia, usadas);//realloca o tamanho do vetor de int
 
 				if(quantia>0){//imprime quais as mesas o grupo estah usando
 					imprimeLocalizacaoGrupo(usadas, quantia);//usadas: numero das mesas; quantia: quantas mesas(tam do vetor)
-					pratosNaoUsados(pilha, mesas, usadas, quantia, linhas, colunas);
+					pratosNaoUsados(pilha, mesas, usadas, quantia, linhas, colunas);//devolve a pilha de pratos os que estavam sobrando
 				}
 				
 				if(restante>0)//se ter sobrado/restado clientes, informa quantos ficaram sem mesa
-					entrarNaFila(fila, restante, 2);
+					entrarNaFila(fila, restante, 2);//entra ou nao na fila de espera
 
 				free(usadas);//libera o vetor de int
 
@@ -146,6 +146,17 @@ void menu()
 			case 3:
 
 				if(estahFechado(aberto)) break;
+
+				int comanda;
+				printf("PARA FINALIZAR A REFEICAO E SAIR DO RESTAURANTE, INFORME O NUMERO DE SUA COMANDA: ");
+				scanf("%d", &comanda);
+				
+				if((comanda > 0) && (comanda <= linhas*colunas)){//se numero digitado for valido
+					mesas = finalizaRefeicao(mesas, linhas, colunas, comanda);//atualiza matriz, agora com a mesa livre
+					if(!filaVazia(fila))//se a fila nao estiver vazia
+						chamaFilaDeEspera(fila, mesas, linhas, colunas);//chama o pessoal da fila de espera
+				}else//valor digitado invalido
+					printf("\nNUMERO DA COMANDA INFORMADO EH INVALIDO. VOLTANDO AO MENU\n");
 
 				break;
 
@@ -162,7 +173,7 @@ void menu()
 				printf("QUAL EH A SENHA DO GRUPO QUE DESEJA SAIR DA FILA DE ESPERA? ");
 				scanf("%d", &senha);
 				
-				fila->ini = desisteDaFila(fila->ini, senha);				
+				fila->ini = desisteDaFila(fila->ini, senha);//retira o grupo que desitiu da fila
 
 				break;
 

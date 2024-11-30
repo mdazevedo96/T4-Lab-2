@@ -1,3 +1,6 @@
+#ifndef MESA_H
+#define MESA_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -32,6 +35,9 @@ int calculaQuantasMesas(int tamanho_grupo);
 /*OCUPA AS MESAS QUE ESTAO LIVRES, ATUALIZA A MATRIZ, A VAR RESTANTE(DE CLIENTES) E O TAMANHO DO VET DAS MESAS USADAS*/
 Mesa** procuraMesasProGrupo(Mesa** mesas, int linhas, int colunas, int* mesas_usadas, int* restante);
 
+/*PROCURA NUMERO DA COMANDA E LIBERA A MESA USADA PARA OUTRO GRUPO*/
+Mesa** finalizaRefeicao(Mesa** mesas, int linhas, int colunas, int comanda);
+
 /*IMPRIME O NUMERO DAS MESAS EM QUE O GRUPO SE ENCONTRA*/
 void imprimeLocalizacaoGrupo(int* mesas_usadas, int tantas);
 
@@ -40,3 +46,5 @@ void imprimeMesas(Mesa** mesas, int linhas, int colunas, int num);
 
 /*LIBERA MATRIZ MESAS*/
 void liberaMatrizDeStructs(Mesa** mesas, int linhas);
+
+#endif

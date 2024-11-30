@@ -1,11 +1,11 @@
+#ifndef MENU_H
+#define MENU_H
+
 #include <stdio.h>
 #include <stdlib.h>
 
 /*
 FALTA ESSES DETALHES:
-4. O grupo que aguarda na fila de espera recebe uma senha única. Pode haver grupos grandes, e neste caso, assim que liberar uma mesa, 
-alguns membros do grupo podem conseguir mesa e outros ainda permanecerem na fila. Neste caso, a senha do grupo permanece a mesma, mas a quantidade de pessoas é atualizada. 
-6. Clientes podem finalizar a refeição e sair do restaurante, liberando as mesas; com isso, os clientes que por ventura aguardam na fila podem sentar-se (saindo da fila de espera). 
 Sempre que uma mesa for liberada, um funcionário arruma a mesa completa (se houver pratos na pilha). 
 8.Um funcionário repõe pratos na pilha de tempos em tempos (não sendo necessário que a pilha esteja vazia para que novos pratos sejam adicionados).
 imprime quantos pratos existem na pilha de pratos(imprimir apenas o numero de quantos tem ,nao a pilha toda)
@@ -68,3 +68,4 @@ grupo 1 aguarda por 3 lugares, grupo 2 aguarda por 5 lugares, logo há 2 grupos a
 OK, imprime cfe opcao selecionada(mesa espec. ou todas), se recem aberto, imprime como livres, senao, cfe estah, e quantos clientes em cada mesa
 8. Ocupação das mesas (número da mesa e quantidade de pessoas que ocupam a mesa) - o usuário pode pesquisar por número de mesa ou então consultar todas as mesas;*/
 
+#endif

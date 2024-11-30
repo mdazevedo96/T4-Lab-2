@@ -1,3 +1,6 @@
+#ifndef PILHA_H
+#define PILHA_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -38,3 +41,5 @@ bool pilha_vazia(Pilha* p);
 
 /*IMPRIME MENSAGEM E RETORNA TRUE SE PILHA ESTAH CHEIA, SENAO, FALSE*/
 bool pilhaCheia(Pilha* p);
+
+#endif

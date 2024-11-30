@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "mesa.h"
 #include "fila.h"
+
 
 /*-----FUNCOES FILA-----*/
 
@@ -26,7 +28,7 @@ void grupoEntraNaFila(Fila* f, int n_membros)
 	novo->num_membros = n_membros;//novo noh guarda quantos membros ha no grupo
 	novo->prox = NULL;//o novo noh serah o ultimo agora, entao ele aponta para NULL
 	
-	if(f->fim == NULL){//se o fim da fila for NULL, a fila estava vazia
+	if(filaVazia(f)){//se o fim da fila for NULL, a fila estava vazia
 		novo->senha_grp = 1;
 		f->ini = novo;//o inicio da fila serah o novo noh
 	}else{//se jah houver um noh no final da fila
@@ -62,6 +64,29 @@ Grupo* desisteDaFila(Grupo* inicio, int senha)
 	free(aux);
 	return inicio;//retorna o primeiro grupo, agora com os ponteiros atualizados
 }
+
+/*COLOCA O PRIMEIRO GRUPO DA FILA NA MESA VAGA*/
+void chamaFilaDeEspera(Fila* f, Mesa** mesas, int linhas, int colunas)
+{
+	int integrantes = f->ini->num_membros;//guarda quantas pessoas tem no grupo
+	int* usada = reAllocaVetor(1, 1, usada);//aloca espaço pra 1 mesa
+
+	mesas = procuraMesasProGrupo(mesas, linhas, colunas, usada, &integrantes);//pessoas do grupo se sentam a mesa
+	
+	//se ainda ha integrantes do grupo sobrando, avisa quantos ainda estao na fila de espera
+	if((integrantes > 0) && (integrantes != f->ini->num_membros)){
+		f->ini->num_membros = integrantes;//numero de membros na fila eh atualizado
+		printf("\nO GRUPO COM SENHA %d DA FILA DE ESPERA FOI CHAMADO. AINDA HA %d INTEGRANTE(S) DO GRUPO ESPERANDO NA FILA\n", f->ini->senha_grp, integrantes);
+		imprimeLocalizacaoGrupo(usada, 1);//imprime a mesa em que se sentaram
+	}
+	else{//se todos integrantes conseguiram se sentar a mesa, retira aquele grupo da fila de espera
+		printf("O GRUPO COM SENHA %d DA FILA DE ESPERA FOI CHAMADO.\n", f->ini->senha_grp);
+		imprimeLocalizacaoGrupo(usada, 1);//imprime a mesa em que se sentaram
+		retiraDaFila(f);//
+	}
+	free(usada);//libera o vetor que guarda o numero da mesa
+}
+
 
 /*RETIRA DA FILA DE ESPERA O PRIMEIRO GRUPO, SE TODOS INTEGRANTES CONSEGUIRAM MESA*/
 void retiraDaFila(Fila* f)
