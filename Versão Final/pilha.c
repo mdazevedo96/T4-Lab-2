@@ -44,17 +44,9 @@ void pilha_push(Pilha* p, int colocar)
 /*RETIRA DA PILHA O TANTO DE PRATOS QUE FOI INFORMADO*/
 void pilha_pop(Pilha* p, int retirar)
 {
-	int i, resposta;
+	int i;
 	
     if(pilha_vazia(p)){
-/*    	printf("MESA NAO PODE SER ARRUMADA POIS FALTA PRATOS. REABASTECER A PILHA DE PRATOS?\n1-SIM\t0-NAO: \t");
-		scanf("%d", &resposta);
-			
-		if(resposta==1)
-			repoePratos(pilha);
-		else
-			printf("\nVOLTANDO AO MENU\n");	
-*/		
 		return;
 	}
 
@@ -65,6 +57,30 @@ void pilha_pop(Pilha* p, int retirar)
     	free(t);
 	}
 }
+
+/*CONFERE SE HA PRATOS SUFICIENTES NA PILHA PARA ARRUMAR A MESA*/
+bool haPratosSuficientes(Pilha* pilha, int n, int usando)
+{
+	int resposta;
+	if(pilha_vazia(pilha)){
+    	printf("MESA NAO PODE SER ARRUMADA POIS FALTA PRATOS. REABASTECER A PILHA DE PRATOS?\n1-SIM\t0-NAO: \t");
+		scanf("%d", &resposta);
+			
+		if(resposta==1){
+			pilha_push(pilha, pilha->total_pratos-usando);
+			printf("PILHA FOI REABASTECIDA");
+		}else{
+			printf("\nVOLTANDO AO MENU\n");
+			return false;
+		}
+	}
+	
+	if(pilha->prim->num_prato > n)//se o numero do topo for maior do que a quantidade q precisa colocar
+		return true;
+	else
+		return false;
+}	
+
 
 /*IMPRIME A PILHA DE PRATOS*/
 void pilha_imprime(Pilha* p)

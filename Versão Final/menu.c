@@ -54,6 +54,18 @@ void pratosNaoUsados(Pilha* pilha, Mesa** mesas, int* usadas, int quantia, int l
 	}	
 }
 
+/*RETORNA QUANTOS PRATOS ESTAO SENDO USADOS NAS MESAS*/
+int sendoUsado(Mesa** mesas, int linhas, int colunas)
+{
+	Mesa** aux = mesas;
+	int i, j, somatorio = 0;
+	for(i=0; i<linhas; i++){
+		for(j=0; j<colunas; j++)
+			somatorio += aux[i][j].q_pessoas;
+	}
+	return somatorio;
+}
+
 /*PRINCIPAL*/
 void menu()
 {
@@ -155,7 +167,11 @@ void menu()
 				
 				if((comanda > 0) && (comanda <= linhas*colunas)){//se numero digitado for valido
 					mesas = finalizaRefeicao(mesas, linhas, colunas, comanda);//atualiza matriz, agora com a mesa livre
-					pilha_pop(pilha, 4);//arruma a mesa novamente, coloca os pratos
+					int em_uso = sendoUsado(mesas, linhas, colunas);
+					if(haPratosSuficientes(pilha, 4, em_uso))//confere se ha pratos suficientes pra arrumar a mesa
+						pilha_pop(pilha, 4);//arruma a mesa novamente, coloca os pratos
+					else//se nao tiver
+						break;
 					if(!filaVazia(fila))//se a fila nao estiver vazia
 						chamaFilaDeEspera(fila, mesas, linhas, colunas);//chama o pessoal da fila de espera
 				}else//valor digitado invalido
@@ -182,16 +198,18 @@ void menu()
 
 			//5.REPOR PRATOS
 			case 5:
-/*				
+				
 				if(estahFechado(aberto)) break;				
-				if(pilha!=NULL){
-					printf("Repor pilha de pratos\n");
-					int repor = pilha->total_pratos - pilha->prim->num_prato;
-					pilha_push(pilha, repor);
-                }else{
-                	printf("pilha nao foi criada\n");
-				}
-*/
+				
+				int em_uso = sendoUsado(mesas, linhas, colunas);
+				int sujos = pilha->total_pratos - em_uso - pilha->prim->num_prato;// guarda os pratos que nao estao na mesa e nem na pilha
+						
+				if(sujos != 0){
+					pilha_push(pilha, sujos);//os "sujos" serao "limpos" e irao pra pilha
+					printf("PILHA DE PRATOS FOI REABASTECIDA\n");
+				}else
+					printf("NAO HA PRATOS DISPONIVEIS PARA PODER REPOR A PILHA\n");
+				
 				break;
 
 			//6.IMPRIMIR PILHA DE PRATOS

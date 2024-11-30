@@ -15,40 +15,43 @@ void menu();
 /*CONFERE SE RESTAURANTE NAO FOI ABERTO AINDA. SENAO, AVISA*/
 bool estahFechado(bool aberto);
 
-/*SE NAO HOUVER MAIS MESAS VAGAS, PERGUNTA SE QUER ENTAR NA FILA, ENTRA (OU N√ÉO)*/
+/*SE NAO HOUVER MAIS MESAS VAGAS, PERGUNTA SE QUER ENTAR NA FILA, ENTRA (OU N√O)*/
 void entrarNaFila(Fila* fila, int integrantes, int caso);
 
 /*PROCURA A MESA DO GRUPO QUE TEM MENOS DE 4 PESSOAS E DEVOLVE OS PRATOS QUE ESTAO SOBRANDO PARA A PILHA*/
 void pratosNaoUsados(Pilha* pilha, Mesa** mesas, int* usadas, int quantia, int linhas, int colunas);
 
+/*RETORNA QUANTOS PRATOS ESTAO SENDO USADOS NAS MESAS*/
+int sendoUsado(Mesa** mesas, int linhas, int colunas);
+
 /*
 FALTA ESSES DETALHES:
-Sempre que uma mesa for liberada, um funcion√°rio arruma a mesa completa (se houver pratos na pilha). 
-8.Um funcion√°rio rep√µe pratos na pilha de tempos em tempos (n√£o sendo necess√°rio que a pilha esteja vazia para que novos pratos sejam adicionados).
+Sempre que uma mesa for liberada, um funcion·rio arruma a mesa completa (se houver pratos na pilha). 
+8.Um funcion·rio repıe pratos na pilha de tempos em tempos (n„o sendo necess·rio que a pilha esteja vazia para que novos pratos sejam adicionados).
 imprime quantos pratos existem na pilha de pratos(imprimir apenas o numero de quantos tem ,nao a pilha toda)
 */
 
-/*Fa√ßa um menu que permita no m√≠nimo as seguintes opera√ß√µes:
+/*FaÁa um menu que permita no mÌnimo as seguintes operaÁıes:
 
 1) Abrir restaurante: informar quantidade de mesas (linhas e colunas da matriz) e arrumar as mesas completas.
 COMPLETO:
-a.nao tem como usar as demais op√ß√µes do menu se a op√ß√£o 1 ainda n√£o foi selecionada(se o restaurante ainda n√£o foi aberto);
-b.se o restaurante jah foi aberto antes, ele nao abre dnv (opcao 1 n√£o vai ser executada dnv, repetida)
-c.fila e pilha s√£o alocadas com sucesso, e a pilha fica com a quantidade de pratos certos e o prato no topo tem o numero de n.
+a.nao tem como usar as demais opÁıes do menu se a opÁ„o 1 ainda n„o foi selecionada(se o restaurante ainda n„o foi aberto);
+b.se o restaurante jah foi aberto antes, ele nao abre dnv (opcao 1 n„o vai ser executada dnv, repetida)
+c.fila e pilha s„o alocadas com sucesso, e a pilha fica com a quantidade de pratos certos e o prato no topo tem o numero de n.
 (ex. 12 mesas * 4 pratos = 48 pratos na pilha e o prato no topo eh o de numero 48)
 d.todos pratos sao retirados da pilha pois eh necessario abrir o restaurante com as mesas arrumadas
 (eles nao vao de fato pras mesas, mas a pilha eh alterada cfe a quantidade de pratos que precisa colocar ou tirar da mesa)	
 
-2) Chegar (grupo de) clientes ao restaurante: implica em ocupar mesa se h√° disponibilidade ou ir pra fila de espera.
+2) Chegar (grupo de) clientes ao restaurante: implica em ocupar mesa se h· disponibilidade ou ir pra fila de espera.
 COMPLETO:
 a.pede-se para dizer quantos clientes tem naquele grupo. dentro da ocpcao, os clientes vao para as mesas como esperado e se imprime em que mesas eles estao
-(ex. 13 clientes, eles ficam nas mesas 1, 2, 3, e o 13¬∫ cliente que ficou solito, fica na mesa 4, ele e apenas ele: dps de outra opercao 2 ninguem de outro grp vai pra mesa 4)
+(ex. 13 clientes, eles ficam nas mesas 1, 2, 3, e o 13∫ cliente que ficou solito, fica na mesa 4, ele e apenas ele: dps de outra opercao 2 ninguem de outro grp vai pra mesa 4)
 b.em outras chamadas da opcao, mesma coisa. Se for o caso do numero de clientes exceder o limite de mesas disponiveis, os q conseguirem pegam mesas e o resto escolhe se quer ir pra fila
 (ex.45 pessoas, mesas 5 6 7 8 9 10 11 12; 13 pessoas ficaram de fora pq nao tem mais mesas, entao eh perguntado se querem entrar na fila. Se sim, programa informa o numero da senha, 1 por ex) 
 c.se clientes optarem por nao ficar na fila de espera, opcao 2 soh encerra
 
-3) Finalizar refei√ß√£o/liberar mesa: sempre que uma mesa √© liberada, a mesa completa √© arrumada (4 pratos), clientes
-s√£o chamados da fila de espera (se houver) e a quantidade de pratos √© ajustada na mesa (tirar pratos excedentes da mesa, se necess√°rio, e recoloc√°-los na pilha).
+3) Finalizar refeiÁ„o/liberar mesa: sempre que uma mesa È liberada, a mesa completa È arrumada (4 pratos), clientes
+s„o chamados da fila de espera (se houver) e a quantidade de pratos È ajustada na mesa (tirar pratos excedentes da mesa, se necess·rio, e recoloc·-los na pilha).
 
 
 4) Desistir de esperar: sair da fila de espera.
@@ -60,17 +63,17 @@ b.retira certinho o grp cfe o numero da senha do grp. se for o caso da senha nao
 (precisa da opcao 3 pra funcionar direito, pra quando um grupo termina de comer. quando as pessoas se sentam a mesa, os pratos que sobram ja voltam automaticamente pra pilha, mas no caso 3 ainda nao)
 *duvidas*
 
-6) Imprimir pilha de pratos, fila de espera e ocupa√ß√£o das mesas, conforme descrito a seguir:
-COMPLETO: todas funcionam aparentemente bem, antes e depois das pilhas, filas e mesas serem mexidas (conferir dnv ap√≥s completar tudo e dar uma arrumada no visual da impressao)
+6) Imprimir pilha de pratos, fila de espera e ocupaÁ„o das mesas, conforme descrito a seguir:
+COMPLETO: todas funcionam aparentemente bem, antes e depois das pilhas, filas e mesas serem mexidas (conferir dnv apÛs completar tudo e dar uma arrumada no visual da impressao)
 
 OK, imprime os pratos que estao na pilha e se ela estiver vazia, avisa que estah vazia
 6.Pilha de pratos (quantos pratos existem na pilha de pratos).
 
 OK, se vazia, avisa; senao, imprime normal como pedido e, cfe grupos desistirem ou entrarem no restaurante, a impressao fica aualizada certinho
-7.Fila de espera (quantos grupos est√£o na fila de espera, e quantas pessoas aguardam na fila de espera. Por ex:
-grupo 1 aguarda por 3 lugares, grupo 2 aguarda por 5 lugares, logo h√° 2 grupos aguardando, e um total de 8 pessoas esperam na fila);
+7.Fila de espera (quantos grupos est„o na fila de espera, e quantas pessoas aguardam na fila de espera. Por ex:
+grupo 1 aguarda por 3 lugares, grupo 2 aguarda por 5 lugares, logo h· 2 grupos aguardando, e um total de 8 pessoas esperam na fila);
 
 OK, imprime cfe opcao selecionada(mesa espec. ou todas), se recem aberto, imprime como livres, senao, cfe estah, e quantos clientes em cada mesa
-8. Ocupa√ß√£o das mesas (n√∫mero da mesa e quantidade de pessoas que ocupam a mesa) - o usu√°rio pode pesquisar por n√∫mero de mesa ou ent√£o consultar todas as mesas;*/
+8. OcupaÁ„o das mesas (n˙mero da mesa e quantidade de pessoas que ocupam a mesa) - o usu·rio pode pesquisar por n˙mero de mesa ou ent„o consultar todas as mesas;*/
 
 #endif
