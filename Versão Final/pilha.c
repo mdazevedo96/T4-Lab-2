@@ -62,7 +62,7 @@ void pilha_pop(Pilha* p, int retirar)
 bool haPratosSuficientes(Pilha* pilha, int n, int usando)
 {
 	int resposta;
-	if(pilha_vazia(pilha)){
+	if(pilha_vazia(pilha) || pilha->prim->num_prato < n){
     	printf("MESA NAO PODE SER ARRUMADA POIS FALTA PRATOS. REABASTECER A PILHA DE PRATOS?\n1-SIM\t0-NAO: \t");
 		scanf("%d", &resposta);
 			
@@ -75,7 +75,7 @@ bool haPratosSuficientes(Pilha* pilha, int n, int usando)
 		}
 	}
 	
-	if(pilha->prim->num_prato > n)//se o numero do topo for maior do que a quantidade q precisa colocar
+	if(pilha->prim->num_prato >= n)//se o numero do topo for maior do que a quantidade q precisa colocar
 		return true;
 	else
 		return false;

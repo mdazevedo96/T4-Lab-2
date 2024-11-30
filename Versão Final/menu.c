@@ -32,7 +32,7 @@ void entrarNaFila(Fila* fila, int integrantes, int caso)
 	
 	if(resposta==1){
 		grupoEntraNaFila(fila, integrantes);//grupo eh posto na fila de espera
-		printf("A SENHA DA FILA DE ESPERA DO GRUPO EH '%d'", fila->fim->senha_grp);
+		printf("A SENHA DA FILA DE ESPERA DO GRUPO EH '%d'\n", fila->fim->senha_grp);
 	}else
 		printf("\nVOLTANDO AO MENU\n");	
 }
