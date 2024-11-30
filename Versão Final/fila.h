@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "mesa.h"
+
 /*-----STRUCT LISTA(GRUPO) E STRUCT FILA-----*/ 
 
 struct grupo
