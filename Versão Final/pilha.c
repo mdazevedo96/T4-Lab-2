@@ -91,7 +91,7 @@ void pilha_imprime(Pilha* p)
     }
     
 	Lista* t = p->prim;
-    printf("\n-PILHA DE PRATOS-\nCAPACIDADE MAXIMA: %d\nQUANTIDADE ATUAL:\n", p->total_pratos, p->prim);
+    printf("\n-PILHA DE PRATOS-\nCAPACIDADE MAXIMA: %d\nQUANTIDADE ATUAL:\n", p->total_pratos, p->prim->num_prato);
 }
 
 /*LIBERA A PILHA DE PRATOS*/
